@@ -1,0 +1,47 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "rollno": 10,
+      "name": "Sachin T.",
+      "marks": 78.5
+    },
+    {
+      "id": 2,
+      "rollno": 11,
+      "name": "Saurav",
+      "marks": 48.5
+    },
+    {
+      "id": 3,
+      "rollno": 12,
+      "name": "Rahul",
+      "marks": 71.5
+    },
+    {
+      "id": 4,
+      "rollno": 15,
+      "name": "Kapil",
+      "marks": 58.2
+    },
+    {
+      "id": 5,
+      "rollno": 18,
+      "name": "Sunil",
+      "marks": 38
+    },
+    {
+      "id": "b96b",
+      "rollno": "25",
+      "name": "Nitin",
+      "marks": "69.33"
+    },
+    {
+      "id": "3e0a",
+      "rollno": "26",
+      "name": "Gautam",
+      "marks": "52.00"
+    }
+  ],
+  "users": []
+}
