@@ -1,7 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function StudentForm(props) {
+  let {view}=props;
   let [student, setStudent] = useState({});
+  useEffect(()=>{
+    // This Hook gets called only once (during first rendering of the component)
+    if(view=="add")
+    {
+
+    }
+    else if(view=="edit")
+    {
+      setStudent(props.selectedStudent);
+    }
+  },[]);
   function handleTextChange(event) {
     // console.log(event.target.name);
     // console.log(event.target.value);
@@ -22,6 +34,7 @@ export default function StudentForm(props) {
             type="text"
             size="40"
             name="rollno"
+            value={student.rollno}
             onChange={handleTextChange}
           />{" "}
         </div>
@@ -31,6 +44,7 @@ export default function StudentForm(props) {
             type="text"
             size="40"
             name="name"
+            value={student.name}
             onChange={handleTextChange}
           />{" "}
         </div>
@@ -40,11 +54,12 @@ export default function StudentForm(props) {
             type="text"
             size="40"
             name="marks"
+            value={student.marks}
             onChange={handleTextChange}
           />{" "}
         </div>
         <div className="my-3">
-          <button type="submit">Add student</button>{" "}
+          <button type="submit">{view=="add"?"Add student":"Update student"}</button>{" "}
           <button type="reset">Clear</button>
         </div>
       </div>

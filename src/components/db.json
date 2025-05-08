@@ -1,33 +1,27 @@
 {
   "students": [
     {
-      "id": 1,
-      "rollno": 10,
-      "name": "Sachin T.",
-      "marks": 78.5
-    },
-    {
-      "id": 2,
+      "id": "2",
       "rollno": 11,
       "name": "Saurav",
       "marks": 48.5
     },
     {
-      "id": 3,
+      "id": "3",
       "rollno": 12,
-      "name": "Rahul",
+      "name": "Rahul Dravid",
       "marks": 71.5
     },
     {
-      "id": 4,
+      "id": "4",
       "rollno": 15,
-      "name": "Kapil",
+      "name": "Kapil Dev",
       "marks": 58.2
     },
     {
-      "id": 5,
+      "id": "5",
       "rollno": 18,
-      "name": "Sunil",
+      "name": "Sunil Gavskar",
       "marks": 38
     },
     {
@@ -41,7 +35,26 @@
       "rollno": "26",
       "name": "Gautam",
       "marks": "52.00"
+    },
+    {
+      "id": "f397",
+      "rollno": "16",
+      "name": "Ajinkya",
+      "marks": "23.69"
     }
   ],
-  "users": []
+  "users": [
+    {
+      "id": "1db0",
+      "name": "Rajesh Jain",
+      "emailid": "j_rajesh@hotmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "68b4",
+      "name": "Rajesh ",
+      "emailid": "rajeshjain@gmail.com",
+      "password": "123456"
+    }
+  ]
 }

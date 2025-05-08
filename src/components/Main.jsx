@@ -3,6 +3,8 @@ import List from "./List";
 import NavBar from "./NavBar";
 import axios from "axios";
 import StudentForm from "./StudentForm";
+import SignupPage from "./SignupPage";
+import LoginPage from "./LoginPage";
 
 export default function Main() {
   //   let sList = [
@@ -14,7 +16,9 @@ export default function Main() {
   //   ];
   let [studentList, setStudentList] = useState([]);
   let [message, setMessage] = useState("");
-  let [view, setView] = useState("list");
+  let [view, setView] = useState("home");
+  let [selectedStudent, setSelectedStudent] = useState({});
+  let [user, setUser] = useState("");
   // As soon as this component is rendered, get data from backend server (json-server)
   useEffect(() => {
     // get data from backend
@@ -44,33 +48,139 @@ export default function Main() {
   }
   function handleAddStudentClick() {
     if (view == "list") setView("add");
-    else if (view == "add") {
+    else if (view == "add" || view == "edit") {
       setView("list");
     }
   }
   async function handleFormSubmit(student) {
-    let response = await axios.post("http://localhost:3000/students", student);
-    let s = response.data;
-    // back-end has sent back this student object alng with its id
-    // let us modify our student-list now
-    let stList = [...studentList];
-    stList.push(s);
-    setStudentList(stList);
-    setView("list")
+    let response, s;
+    if (view == "add") {
+      response = await axios.post("http://localhost:3000/students", student);
+      s = response.data;
+      // back-end has sent back this student object alng with its id
+      // let us modify our student-list now
+      let stList = [...studentList];
+      stList.push(s);
+      setStudentList(stList);
+    } //..add
+    else if (view == "edit") {
+      response = await axios.put(
+        "http://localhost:3000/students/" + student.id,
+        student
+      );
+      s = response.data;
+      // let us modify our student-list now
+      let stList = studentList.map((e, index) => {
+        if (e.id == student.id) {
+          return student;
+        } else {
+          return e;
+        }
+      });
+      setStudentList(stList);
+    } //else
+    setView("list");
+  }
+  async function handleUserFormSubmit(user) {
+    let response, s;
+    // Check whether user exists
+    // get all users from backend
+    response = await axios.get("http://localhost:3000/users");
+    let userList = response.data;
+    let filteredUserList = userList.filter(
+      (e, index) => e.emailid == user.emailid
+    );
+
+    if (filteredUserList.length == 1) {
+      // this user exists
+      setMessage("Sorry....this emailid is already registered");
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
+    } else {
+      response = await axios.post("http://localhost:3000/users", user);
+      s = response.data;
+      // setMessage("Signup operation successful");
+      setView("signupSuccess");
+    }
+  }
+  async function handleLoginFormSubmit(user) {
+    let response = await axios.get("http://localhost:3000/users");
+    let userList = response.data;
+    let filteredUserList = userList.filter(
+      (e, index) => e.emailid == user.emailid && e.password == user.password
+    );
+    if (filteredUserList.length == 1) {
+      //login Success
+      setView("loginSuccess");
+      setUser(filteredUserList[0]);
+    } else {
+      //login failure
+      // setView("loginFailure");
+      setMessage("Sorry... wrong credentials");
+    }
+  }
+  function handleEditButtonClick(s) {
+    setView("edit");
+    setSelectedStudent(s);
+  }
+  function handleSignupButtonClick() {
+    setView("signup");
+  }
+  function handleHomeButtonClick() {
+    setView("home");
+  }
+  function handleLoginClick() {
+    setView("login");
+  }
+  function handleLogoutClick() {
+    setView("home");
+    setUser("");  //false
   }
   return (
     <div className="container">
-      <NavBar message={message} />
-      <div className="text-center my-3">
-        <button className="btn btn-primary" onClick={handleAddStudentClick}>
-          {view == "list" ? "Add a student" : "List"}
-        </button>
-      </div>
-      {view == "add" && <StudentForm onFormSubmit={handleFormSubmit} />}
-      {view == "list" && (
+      <NavBar
+        message={message}
+        user={user}
+        onSignupButtonClick={handleSignupButtonClick}
+        onHomeButtonClick={handleHomeButtonClick}
+        onLoginClick={handleLoginClick}
+        onLogoutClick={handleLogoutClick}
+      />
+      {(view == "list" || view == "loginSuccess") && (
+        <div className="text-center my-3">
+          <button className="btn btn-primary" onClick={handleAddStudentClick}>
+            {view == "list" ? "Add a student" : "List"}
+          </button>
+        </div>
+      )}
+      {(view == "signup" || view == "signupSuccess") && (
+        <SignupPage
+          view={view}
+          onUserFormSubmit={handleUserFormSubmit}
+          onLoginClick={handleLoginClick}
+        />
+      )}
+      {view == "login" && (
+        <LoginPage onLoginFormSubmit={handleLoginFormSubmit} />
+      )}
+      {view == "home" && (
+        <div className="my-4">
+          <img src="/images/students.jpg" alt="" />
+        </div>
+      )}
+      {(view == "add" || view == "edit") && (
+        <StudentForm
+          view={view}
+          selectedStudent={selectedStudent}
+          onFormSubmit={handleFormSubmit}
+        />
+      )}
+      {(view == "list" || view == "loginSuccess") && (
         <List
           studentList={studentList}
           onDeleteButtonClick={handleDeleteButtonClick}
+          onEditButtonClick={handleEditButtonClick}
         />
       )}
     </div>

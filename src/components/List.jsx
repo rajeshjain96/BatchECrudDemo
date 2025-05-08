@@ -5,6 +5,12 @@ export default function List(props) {
   function handleDeleteButtonClick(s, ans) {
     props.onDeleteButtonClick(s, ans);
   }
+  function handleEditButtonClick(s) {
+    props.onEditButtonClick(s);
+  }
+  function handleEditButtonClick(s) {
+    props.onEditButtonClick(s);
+  }
   return (
     <>
       {studentList.length != 0 && (
@@ -15,6 +21,7 @@ export default function List(props) {
               key={index}
               index={index}
               onDeleteButtonClick={handleDeleteButtonClick}
+              onEditButtonClick={handleEditButtonClick}
             />
           ))}
         </div>

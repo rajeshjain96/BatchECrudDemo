@@ -2,7 +2,7 @@ export default function AStudent(props) {
   let { s } = props;
   let { index } = props;
   function handleDeleteButtonClick() {
-    let ans = window.confirm("Do you really want to delete this record?");
+    let ans = window.confirm("Do you really want to delete of record "+s.name);
     if (ans) {
       //yes
       props.onDeleteButtonClick(s,ans);
@@ -13,6 +13,11 @@ export default function AStudent(props) {
       props.onDeleteButtonClick(s, ans);
     }
   }
+  function handleEditButtonClick() {
+    console.log(s.name);
+    
+      props.onEditButtonClick(s);
+  }
   return (
     <div className="row w-75 mx-auto bg-primary text-white my-3 p-2">
       <div className="col-1">{index + 1}</div>
@@ -20,7 +25,7 @@ export default function AStudent(props) {
       <div className="col-3">{s.name}</div>
       <div className="col-3">{s.marks}</div>
       <div className="col-1">
-        <button>
+        <button onClick={handleEditButtonClick}>
           <i className="bi bi-pencil-square"></i>
         </button>
       </div>
